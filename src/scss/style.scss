@@ -1,3 +1,7 @@
+@import "./mixins";
+@import "./variables";
+@import "./player";
+
 main {
   max-width: 988px;
   margin: auto;

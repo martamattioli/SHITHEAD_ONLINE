@@ -1,0 +1,59 @@
+$height: 100px;
+$width: 75px;
+$space: 5px;
+
+.player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &:first-of-type {
+    .in-hand {
+      order: -1;
+    }
+  }
+
+  &:last-of-type {
+    h2 {
+      order: 1;
+    }
+  }
+}
+
+.hand > div {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.hand {
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  margin: $space;
+
+  border: solid 1px $grey;
+  border-radius: 4px;
+  width: $width;
+  height: $height;
+
+  background: white;
+}
+
+.face-down {
+  margin-left: 10px;
+  .card {
+    @include background('https://wallpaperscraft.com/image/art_star_tree_sky_space_93472_300x400.jpg');
+  }
+}
+
+.face-up {
+  margin-top: calc(#{-$height} + #{-$space});
+}
