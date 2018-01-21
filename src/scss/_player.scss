@@ -1,15 +1,31 @@
-$height: 100px;
-$width: 75px;
+$height: 110px;
+$width: 76px;
 $space: 5px;
+$overlap: calc(#{-$height} + 20px);
 
 .player {
   display: flex;
   flex-direction: column;
   align-items: center;
 
+  .face-up {
+    margin-top: calc(#{-$height} + (#{-$space} * 2));
+  }
+
+  .in-hand {
+    margin-top: $overlap;
+    position: relative;
+    .card {
+      box-shadow: 1px 1px 5px $darkGrey;
+    }
+  }
+
   &:first-of-type {
     .in-hand {
       order: -1;
+      margin-top: 0;
+      margin-bottom: $overlap;
+      z-index: 100;
     }
   }
 
@@ -39,21 +55,16 @@ $space: 5px;
 
   margin: $space;
 
-  border: solid 1px $grey;
-  border-radius: 4px;
   width: $width;
   height: $height;
 
-  background: white;
+  border-radius: 4px;
+
+  @include centerBackground;
 }
 
 .face-down {
-  margin-left: 10px;
   .card {
-    @include background('https://wallpaperscraft.com/image/art_star_tree_sky_space_93472_300x400.jpg');
+    background-image: url('https://wallpaperscraft.com/image/art_star_tree_sky_space_93472_300x400.jpg');
   }
-}
-
-.face-up {
-  margin-top: calc(#{-$height} + #{-$space});
 }

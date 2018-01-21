@@ -1,7 +1,7 @@
 import shortid from 'shortid';
 
 class Deck {
-  suits = ['♠️', '♥️', '♣️', '♦️'];
+  suits = ['S', 'H', 'C', 'D'];
   values = ['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K'];
   cards = [];
 
@@ -12,7 +12,15 @@ class Deck {
       });
 
       if(jokersIncluded) {
-        this.cards.push({ id: shortid.generate(), value: 'joker' }, { id: shortid.generate(), value: 'joker' });
+        this.cards.push({
+          id: shortid.generate(),
+          value: 'Joker1',
+          suit: ''
+        }, {
+          id: shortid.generate(),
+          value: 'Joker2',
+          suit: ''
+        });
       }
     }
   }

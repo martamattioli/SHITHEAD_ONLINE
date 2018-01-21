@@ -8,23 +8,25 @@ const Player = ({ name, hand }) => {
       <div className="hand">
         <div className="face-down">
           {hand.faceDown.map(card =>
-            <div className="card" key={card.id}></div>
+            <div
+              className="card" key={card.id}
+            ></div>
           )}
         </div>
         <div className="face-up">
           {hand.faceUp.map(card =>
-            <div className="card" key={card.id}>
-              <span>{card.suit}</span>
-              <span>{card.value}</span>
-            </div>
+            <div
+              className="card" key={card.id}
+              style={{ backgroundImage: `url(/assets/cards/${card.value}${card.suit}.svg)`}}
+            ></div>
           )}
         </div>
         <div className="in-hand">
           {hand.inHand.map(card =>
-            <div className="card" key={card.id}>
-              <span>{card.suit}</span>
-              <span>{card.value}</span>
-            </div>
+            <div
+              className="card" key={card.id}
+              style={{ backgroundImage: `url(/assets/cards/${card.value}${card.suit}.svg)`}}
+            ></div>
           )}
         </div>
       </div>
