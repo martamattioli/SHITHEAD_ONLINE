@@ -1,2 +1,7 @@
+// typography
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,800');
+$mainFont: 'Open Sans', sans-serif;
+
+// colors
 $grey: grey;
 $darkGrey: darken($grey, 10%);
