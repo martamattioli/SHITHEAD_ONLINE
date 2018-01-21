@@ -1,3 +1,5 @@
+import shortid from 'shortid';
+
 class Deck {
   suits = ['♠️', '♥️', '♣️', '♦️'];
   values = ['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K'];
@@ -5,10 +7,12 @@ class Deck {
 
   constructor(numberOfPacks=1, jokersIncluded=false) {
     while(numberOfPacks--) {
-      this.suits.forEach(suit => this.values.forEach(value => this.cards.push({ suit, value })));
+      this.suits.forEach(suit => {
+        this.values.forEach(value => this.cards.push({ id: shortid.generate(), suit, value }));
+      });
 
       if(jokersIncluded) {
-        this.cards.push({ value: 'joker' }, { value: 'joker' });
+        this.cards.push({ id: shortid.generate(), value: 'joker' }, { id: shortid.generate(), value: 'joker' });
       }
     }
   }
@@ -26,12 +30,7 @@ class Deck {
     }
   }
 
-  dealCard = (player, cards) => {
-    for (var i = 0; i < 3; i++) {
-      player.hand = player.hand.concat(cards[i]);
-    }
-    return player.hand;
-  }
+  getCard = () => this.cards.pop();
 }
 
 export default Deck;
