@@ -25,6 +25,13 @@ class Deck {
       }
     }
   }
+
+  dealCard = (player, cards) => {
+    for (var i = 0; i < 3; i++) {
+      player.hand = player.hand.concat(cards[i]);
+    }
+    return player.hand;
+  }
 }
 
 export default Deck;
