@@ -58,12 +58,34 @@ class App extends React.Component {
     this.setState({ players: [player1, player2] }, this.startGame);
   }
 
+  playCard = (id) => {
+    const playerIndex = this.state.turnIndex % this.state.players.length;
+    const currentPlayer = this.state.players[playerIndex];
+    const turnIndex = this.state.turnIndex + 1;
+    const card = currentPlayer.hand.inHand.find(card => card.id === id);
+    // removed card that was clicked on
+    const inHand = currentPlayer.hand.inHand.map(card => {
+      if(card.id === id) return this.deck.getCard();
+      return card;
+    });
+    const hand = Object.assign({}, currentPlayer.hand, { inHand });
+    const updatedPlayer = Object.assign({}, currentPlayer, { hand });
+
+    const players = this.state.players.map((player, i) => {
+      if(playerIndex === i) return updatedPlayer;
+      return player;
+    });
+
+    const burn = this.state.burn.concat(card);
+    this.setState({ players, burn, turnIndex, deck: this.deck.getAllCards() });
+  }
+
   render() {
     return (
       <main>
         <h1>Shithead Online</h1>
         {this.state.players.map(player =>
-          <Player key={player.name} {...player} />
+          <Player key={player.name} {...player} playCard={this.playCard} />
         )}
 
         <div className="decks">
