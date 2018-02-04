@@ -1,10 +1,16 @@
 @import "./mixins";
 @import "./variables";
 @import "./player";
+@import "./card";
+@import "./deck";
 
 main {
   max-width: 988px;
   margin: auto;
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
   font-family: $mainFont;
 }

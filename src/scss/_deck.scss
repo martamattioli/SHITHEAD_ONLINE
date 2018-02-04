@@ -1,0 +1,24 @@
+.decks {
+  width: 250px;
+  height: 110px;
+  display: flex;
+  order: 2;
+  justify-content: space-around;
+  align-items: center;
+  margin: $space;
+  padding: $space;
+
+}
+
+.deck {
+  position: relative;
+  width: $width + ($space * 2);
+  height: $height + ($space * 2);
+  border: solid 1px $grey;
+
+  .card {
+    position: absolute;
+  }
+
+
+}

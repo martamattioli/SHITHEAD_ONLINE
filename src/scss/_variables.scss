@@ -5,3 +5,9 @@ $mainFont: 'Open Sans', sans-serif;
 // colors
 $grey: grey;
 $darkGrey: darken($grey, 10%);
+
+// dimensions
+$height: 110px;
+$width: 76px;
+$space: 5px;
+$overlap: calc(#{-$height} + 20px);

@@ -66,7 +66,10 @@ class App extends React.Component {
           <Player key={player.name} {...player} />
         )}
 
-        <CardPile deck={this.state.deck} />
+        <div className="decks">
+          <CardPile deck={this.state.deck} />
+          <CardPile deck={this.state.burn} />
+        </div>
       </main>
     );
   }

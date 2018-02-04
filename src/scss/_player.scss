@@ -1,8 +1,3 @@
-$height: 110px;
-$width: 76px;
-$space: 5px;
-$overlap: calc(#{-$height} + 20px);
-
 .player {
   display: flex;
   flex-direction: column;
@@ -15,21 +10,17 @@ $overlap: calc(#{-$height} + 20px);
   .in-hand {
     margin-top: $overlap;
     position: relative;
+    order: -1;
+    margin-top: 0;
+    margin-bottom: $overlap;
+    z-index: 100;
     .card {
       box-shadow: 1px 1px 5px $darkGrey;
     }
   }
 
-  &:first-of-type {
-    .in-hand {
-      order: -1;
-      margin-top: 0;
-      margin-bottom: $overlap;
-      z-index: 100;
-    }
-  }
-
-  &:last-of-type {
+  & + .player {
+    order: 3;
     h2 {
       order: 1;
     }
@@ -45,20 +36,4 @@ $overlap: calc(#{-$height} + 20px);
 .hand {
   display: flex;
   flex-direction: column;
-}
-
-.card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  margin: $space;
-
-  width: $width;
-  height: $height;
-
-  border-radius: 4px;
-
-  @include centerBackground;
 }
