@@ -3,16 +3,10 @@
   flex-direction: column;
   align-items: center;
 
-  .face-up {
-    margin-top: calc(#{-$height} + (#{-$space} * 2));
-  }
-
   .in-hand {
-    margin-top: $overlap;
     position: relative;
+    top: -20px;
     order: -1;
-    margin-top: 0;
-    margin-bottom: $overlap;
     z-index: 100;
     .card {
       box-shadow: 1px 1px 5px $darkGrey;
@@ -24,16 +18,14 @@
     h2 {
       order: 1;
     }
+    .in-hand {
+      top: auto;
+      bottom: -20px;
+    }
   }
 }
 
 .hand > div {
+  position: absolute;
   display: flex;
-  justify-content: center;
-  align-content: center;
-}
-
-.hand {
-  display: flex;
-  flex-direction: column;
 }
