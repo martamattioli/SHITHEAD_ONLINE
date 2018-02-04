@@ -62,9 +62,3 @@ $overlap: calc(#{-$height} + 20px);
 
   @include centerBackground;
 }
-
-.face-down {
-  .card {
-    background-image: url('https://wallpaperscraft.com/image/art_star_tree_sky_space_93472_300x400.jpg');
-  }
-}

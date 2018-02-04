@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Deck from './lib/Deck';
 import Player from './components/Player';
+import CardPile from './components/CardPile';
 
 import './scss/style.scss';
 
@@ -10,14 +11,14 @@ class App extends React.Component {
     super();
 
     this.state = {
-      pile: [],
+      burn: [],
+      deck: [],
       players: [],
       turnIndex: 0
     };
   }
 
   dealCard = (card, player) => {
-    console.log(card, player);
     if(player.hand.faceDown.length < 3) player.hand.faceDown = player.hand.faceDown.concat(card);
     else if(player.hand.faceUp.length < 3) player.hand.faceUp = player.hand.faceUp.concat(card);
     else player.hand.inHand = player.hand.inHand.concat(card);
@@ -43,7 +44,7 @@ class App extends React.Component {
       const { players } = this.state;
       const player1 = this.dealCard(this.deck.getCard(), players[0]);
       const player2 = this.dealCard(this.deck.getCard(), players[1]);
-      this.setState({ players: [player1, player2] });
+      this.setState({ players: [player1, player2], deck: this.deck.getAllCards() });
     }
   }
 
@@ -64,6 +65,8 @@ class App extends React.Component {
         {this.state.players.map(player =>
           <Player key={player.name} {...player} />
         )}
+
+        <CardPile deck={this.state.deck} />
       </main>
     );
   }

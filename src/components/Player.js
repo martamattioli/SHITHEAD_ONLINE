@@ -1,32 +1,24 @@
 import React from 'react';
+import Card from './Card';
 
 const Player = ({ name, hand }) => {
-  console.log(hand);
   return (
     <div className="player">
       <h2>{name}</h2>
       <div className="hand">
         <div className="face-down">
           {hand.faceDown.map(card =>
-            <div
-              className="card" key={card.id}
-            ></div>
+            <Card key={card.id} {...card} />
           )}
         </div>
         <div className="face-up">
           {hand.faceUp.map(card =>
-            <div
-              className="card" key={card.id}
-              style={{ backgroundImage: `url(/assets/cards/${card.value}${card.suit}.svg)`}}
-            ></div>
+            <Card key={card.id} {...card} isFaceUp={true} />
           )}
         </div>
         <div className="in-hand">
           {hand.inHand.map(card =>
-            <div
-              className="card" key={card.id}
-              style={{ backgroundImage: `url(/assets/cards/${card.value}${card.suit}.svg)`}}
-            ></div>
+            <Card key={card.id} {...card} isFaceUp={true} />
           )}
         </div>
       </div>

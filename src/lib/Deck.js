@@ -39,6 +39,7 @@ class Deck {
   }
 
   getCard = () => this.cards.pop();
+  getAllCards = () => this.cards;
 }
 
 export default Deck;
