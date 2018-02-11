@@ -49,7 +49,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.deck = new Deck(1);
+    this.deck = new Deck(2, true);
     this.deck.shuffle();
     // create player 1
     const player1 = this.createPlayer('Marta');
@@ -58,23 +58,29 @@ class App extends React.Component {
     this.setState({ players: [player1, player2] }, this.startGame);
   }
 
+  findHand = (currentPlayer) => Object.keys(currentPlayer.hand).reduce((currentHand, key) => {
+    return currentPlayer.hand[key].length ? key : currentHand;
+  });
+
   playCard = (id) => {
     const playerIndex = this.state.turnIndex % this.state.players.length;
     const currentPlayer = this.state.players[playerIndex];
     const turnIndex = this.state.turnIndex + 1;
-    const card = currentPlayer.hand.inHand.find(card => card.id === id);
+    const currentHand = this.findHand(currentPlayer);
+    console.log(currentHand);
+    const card = currentPlayer.hand[currentHand].find(card => card.id === id);
     if(!card) return false;
 
     // removed card that was clicked on
     const newCard = this.deck.getCard();
-    const inHand = newCard ? currentPlayer.hand.inHand.map(card => {
+    const newHand = newCard ? currentPlayer.hand[currentHand].map(card => {
       if(card.id === id) return newCard;
       return card;
-    }) : currentPlayer.hand.inHand.filter(card => {
+    }) : currentPlayer.hand[currentHand].filter(card => {
       return card.id !== id;
     });
 
-    const hand = Object.assign({}, currentPlayer.hand, { inHand });
+    const hand = Object.assign({}, currentPlayer.hand, { [currentHand]: newHand });
     const updatedPlayer = Object.assign({}, currentPlayer, { hand });
 
     const players = this.state.players.map((player, i) => {
@@ -96,7 +102,7 @@ class App extends React.Component {
 
         <div className="decks">
           <CardPile deck={this.state.deck} />
-          <CardPile deck={this.state.burn} />
+          <CardPile deck={this.state.burn} isFaceUp={true} />
         </div>
       </main>
     );
