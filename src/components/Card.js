@@ -7,8 +7,6 @@ const Card = ({ id, value, suit, isFaceUp, playCard, canPlayCard }) => {
     backgroundImage: 'url(https://wallpaperscraft.com/image/art_star_tree_sky_space_93472_300x400.jpg)'
   };
 
-  console.log(canPlayCard, value, suit);
-
   return (
     <div
       className="card"
