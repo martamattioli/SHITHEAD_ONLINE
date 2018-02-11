@@ -49,7 +49,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.deck = new Deck(2, true);
+    this.deck = new Deck(1);
     this.deck.shuffle();
     // create player 1
     const player1 = this.createPlayer('Marta');
@@ -63,11 +63,17 @@ class App extends React.Component {
     const currentPlayer = this.state.players[playerIndex];
     const turnIndex = this.state.turnIndex + 1;
     const card = currentPlayer.hand.inHand.find(card => card.id === id);
+    if(!card) return false;
+
     // removed card that was clicked on
-    const inHand = currentPlayer.hand.inHand.map(card => {
-      if(card.id === id) return this.deck.getCard();
+    const newCard = this.deck.getCard();
+    const inHand = newCard ? currentPlayer.hand.inHand.map(card => {
+      if(card.id === id) return newCard;
       return card;
+    }) : currentPlayer.hand.inHand.filter(card => {
+      return card.id !== id;
     });
+
     const hand = Object.assign({}, currentPlayer.hand, { inHand });
     const updatedPlayer = Object.assign({}, currentPlayer, { hand });
 

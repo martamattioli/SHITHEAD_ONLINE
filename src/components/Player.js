@@ -8,12 +8,12 @@ const Player = ({ name, hand, playCard }) => {
       <div className="hand">
         <div className="face-down">
           {hand.faceDown.map(card =>
-            <Card key={card.id} {...card} playCard={playCard} />
+            <Card key={card.id} {...card} />
           )}
         </div>
         <div className="face-up">
           {hand.faceUp.map(card =>
-            <Card key={card.id} {...card} isFaceUp={true} playCard={playCard} />
+            <Card key={card.id} {...card} isFaceUp={true} />
           )}
         </div>
         <div className="in-hand">
