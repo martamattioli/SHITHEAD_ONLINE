@@ -25,7 +25,12 @@
   }
 }
 
-.hand > div {
-  position: absolute;
+.hand {
   display: flex;
+  justify-content: center;
+  height: $height + 10;
+  & > div {
+    position: absolute;
+    display: flex;
+  }
 }
