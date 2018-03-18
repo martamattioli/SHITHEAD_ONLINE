@@ -15,11 +15,13 @@ class Deck {
         this.cards.push({
           id: shortid.generate(),
           value: 'Joker1',
-          suit: ''
+          suit: '',
+          power: 14
         }, {
           id: shortid.generate(),
           value: 'Joker2',
-          suit: ''
+          suit: '',
+          power: 14
         });
       }
     }

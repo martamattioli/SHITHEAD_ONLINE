@@ -65,7 +65,7 @@ class App extends React.Component {
   });
 
   isHigherCard = card => {
-    const topCard = this.state.burn[this.state.burn.length-1] || { value: 2 };
+    const topCard = this.state.burn[this.state.burn.length-1] || { value: 3 };
     return this.deck.values.indexOf(topCard.value) <= this.deck.values.indexOf(card.value);
   }
 
@@ -109,11 +109,15 @@ class App extends React.Component {
   }
 
   playCard = id => {
+    console.log('playCard', id);
     const turnIndex = this.state.turnIndex + 1;
     const currentPlayer = this.getCurrentPlayer();
     const currentHand = this.findHand(currentPlayer);
     const card = currentPlayer.hand[currentHand].find(card => card.id === id);
-    if(!card || !this.isHigherCard(card)) return false;
+    if(!card || !this.isHigherCard(card)) {
+      console.log('!isHigherCard');
+      return false;
+    }
 
     // removed card that was clicked on
     const newCard = currentPlayer.hand[currentHand].length === 3 && this.deck.getCard();
