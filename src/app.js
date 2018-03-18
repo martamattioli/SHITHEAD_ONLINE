@@ -101,12 +101,15 @@ class App extends React.Component {
 
   pickUpBurn = () => {
     if(!this.state.burn.length) return false;
-    const turnIndex = this.state.turnIndex + 1;
     const currentPlayer = this.getCurrentPlayer();
-    const newHand = currentPlayer.hand.inHand.concat(this.state.burn);
+    const newHand = currentPlayer.hand.inHand.map(card => {
+      delete card.selected;
+      return card;
+    }).concat(this.state.burn);
     const players = this.updatePlayerHand(newHand);
+    const turnIndex = this.state.turnIndex + 1;
 
-    this.setState({ players, burn: [], turnIndex });
+    this.setState({ players, burn: [], turnIndex }, () => console.log(this.state));
   }
 
   selectCard = id => {
@@ -131,25 +134,29 @@ class App extends React.Component {
     this.setState({ players, message: '' });
   }
 
-  playCard = id => {
+  playCard = () => {
+    console.log('playin...');
     const turnIndex = this.state.turnIndex + 1;
     const currentPlayer = this.getCurrentPlayer();
     const currentHand = this.findHand(currentPlayer);
-    const card = currentPlayer.hand[currentHand].find(card => card.id === id);
-    if(!card || !this.isHigherCard(card)) return false;
+    const selectedCards = currentPlayer.hand[currentHand].filter(card => card.selected);
+    console.log(selectedCards);
+
+    if(selectedCards.length === 0 || !this.isHigherCard(selectedCards[0])) return this.pickUpBurn();
 
     // removed card that was clicked on
-    const newCard = currentPlayer.hand[currentHand].length === 3 && this.deck.getCard();
-    const newHand = newCard ? currentPlayer.hand[currentHand].map(card => {
-      if(card.id === id) return newCard;
+    const canPickUp = currentPlayer.hand[currentHand].length === 3 && this.deck.cards.length; // length of deck
+    console.log(canPickUp);
+    const newHand = canPickUp ? currentPlayer.hand[currentHand].map(card => {
+      if(card.selected) return this.deck.getCard();
       return card;
     }) : currentPlayer.hand[currentHand].filter(card => {
-      return card.id !== id;
+      return !selectedCards.includes(card);
     });
 
     const players = this.updatePlayerHand(newHand);
 
-    const burn = this.state.burn.concat(card);
+    const burn = this.state.burn.concat(selectedCards);
     this.setState({ players, burn, turnIndex, deck: this.deck.getAllCards() });
   }
 
@@ -171,7 +178,7 @@ class App extends React.Component {
 
         <div className="decks">
           <CardPile deck={this.state.deck} />
-          <CardPile deck={this.state.burn} isFaceUp={true} pickUpBurn={this.pickUpBurn} />
+          <CardPile deck={this.state.burn} isFaceUp={true} onClick={this.playCard} />
         </div>
       </main>
     );

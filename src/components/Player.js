@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from './Card';
 
-const Player = ({ name, hand, selectCard, playCard, isCurrentPlayer, playerIndex }) => {
+const Player = ({ name, hand, selectCard, isCurrentPlayer, playerIndex }) => {
   return (
     <div className={`player player-${playerIndex}${isCurrentPlayer ? ' is-current' : ''}`}>
       <h2>{name}</h2>

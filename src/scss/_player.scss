@@ -7,6 +7,7 @@
   &.is-current {
 
     h2 {
+      color: red;
       animation-name: pulse;
       animation-duration: 1s;
       animation-iteration-count: 2;
