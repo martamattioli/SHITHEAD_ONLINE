@@ -26,7 +26,7 @@ class App extends React.Component {
     return player;
   }
 
-  createPlayer = (name) => {
+  createPlayer = name => {
     return {
       name,
       hand: {
@@ -58,7 +58,7 @@ class App extends React.Component {
     this.setState({ players: [player1, player2] }, this.startGame);
   }
 
-  findHand = (currentPlayer) => Object.keys(currentPlayer.hand).reduce((currentHand, key) => {
+  findHand = currentPlayer => Object.keys(currentPlayer.hand).reduce((currentHand, key) => {
     return currentPlayer.hand[key].length ? key : currentHand;
   });
 
