@@ -40,12 +40,14 @@ class App extends React.Component {
   startGame = () => {
     // deal cards to players in tern, 9 cards each
     let turn = 9;
+    let player1;
+    let player2;
     while(turn--) {
       const { players } = this.state;
-      const player1 = this.dealCard(this.deck.getCard(), players[0]);
-      const player2 = this.dealCard(this.deck.getCard(), players[1]);
-      this.setState({ players: [player1, player2], deck: this.deck.getAllCards() });
+      player1 = this.dealCard(this.deck.getCard(), players[0]);
+      player2 = this.dealCard(this.deck.getCard(), players[1]);
     }
+    this.setState({ players: [player1, player2], deck: this.deck.getAllCards() }, this.chooseInitialPlayer);
   }
 
   componentDidMount() {
@@ -65,6 +67,18 @@ class App extends React.Component {
   isHigherCard = card => {
     const topCard = this.state.burn[this.state.burn.length-1] || { value: 2 };
     return this.deck.values.indexOf(topCard.value) <= this.deck.values.indexOf(card.value);
+  }
+
+  chooseInitialPlayer = () => {
+    // loop through each player's inHand hand cards
+    const lowestCards = this.state.players.map(player => {
+      return player.hand.inHand.reduce((lowestCard, card) => {
+        if(card.power < lowestCard.power) return card;
+        return lowestCard;
+      }, { power: 14 });
+    });
+
+    if(lowestCards[1].value < lowestCards[0].value) this.setState({ turnIndex: 1 });
   }
 
   getCurrentPlayer = () => {
@@ -120,8 +134,13 @@ class App extends React.Component {
     return (
       <main>
         <h1>Shithead Online</h1>
-        {this.state.players.map(player =>
-          <Player key={player.name} {...player} playCard={this.playCard} />
+        {this.state.players.map((player, index) =>
+          <Player
+            key={player.name}
+            playCard={this.playCard}
+            isCurrentPlayer={this.state.turnIndex % this.state.players.length === index}
+            {...player}
+          />
         )}
 
         <div className="decks">

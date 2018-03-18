@@ -1,7 +1,17 @@
+
 .player {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  &.is-current {
+
+    h2 {
+      animation-name: pulse;
+      animation-duration: 1s;
+      animation-iteration-count: 2;
+    }
+  }
 
   .in-hand {
     position: relative;

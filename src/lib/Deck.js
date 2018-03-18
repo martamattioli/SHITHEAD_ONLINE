@@ -2,13 +2,13 @@ import shortid from 'shortid';
 
 class Deck {
   suits = ['S', 'H', 'C', 'D'];
-  values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A'];
+  values = [3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A', 2];
   cards = [];
 
   constructor(numberOfPacks=1, jokersIncluded=false) {
     while(numberOfPacks--) {
       this.suits.forEach(suit => {
-        this.values.forEach(value => this.cards.push({ id: shortid.generate(), suit, value }));
+        this.values.forEach((value, power) => this.cards.push({ id: shortid.generate(), suit, value, power }));
       });
 
       if(jokersIncluded) {
