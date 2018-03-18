@@ -8,17 +8,17 @@ const Player = ({ name, hand, selectCard, playCard, isCurrentPlayer, playerIndex
       <div className="hand">
         <div className="face-down">
           {hand.faceDown.map(card =>
-            <Card key={card.id} {...card} selectCard={selectCard} canPlayCard={hand.faceUp.length===0} />
+            <Card key={card.id} {...card} selectCard={selectCard} canPlayCard={isCurrentPlayer && hand.faceUp.length===0} />
           )}
         </div>
         <div className="face-up">
           {hand.faceUp.map(card =>
-            <Card key={card.id} {...card} isFaceUp={true} selectCard={selectCard} canPlayCard={hand.inHand.length===0}/>
+            <Card key={card.id} {...card} isFaceUp={true} selectCard={selectCard} canPlayCard={isCurrentPlayer && hand.inHand.length===0}/>
           )}
         </div>
         <div className="in-hand">
           {hand.inHand.map(card =>
-            <Card key={card.id} {...card} isFaceUp={true} selectCard={selectCard} canPlayCard={true} />
+            <Card key={card.id} {...card} isFaceUp={true} selectCard={selectCard} canPlayCard={isCurrentPlayer} />
           )}
         </div>
       </div>
