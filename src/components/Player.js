@@ -1,7 +1,8 @@
 import React from 'react';
 import Card from './Card';
 
-const Player = ({ name, hand, selectCard, isCurrentPlayer, playerIndex }) => {
+const Player = ({ name, hand, selectCard, isCurrentPlayer, playerIndex, isFirstGo }) => {
+  console.log(isFirstGo);
   return (
     <div className={`player player-${playerIndex}${isCurrentPlayer ? ' is-current' : ''}`}>
       <h2>{name}</h2>
@@ -18,7 +19,14 @@ const Player = ({ name, hand, selectCard, isCurrentPlayer, playerIndex }) => {
         </div>
         <div className="in-hand">
           {hand.inHand.map(card =>
-            <Card key={card.id} {...card} isFaceUp={true} selectCard={selectCard} canPlayCard={isCurrentPlayer} />
+            <Card
+              key={card.id}
+              {...card}
+              isFaceUp={true}
+              selectCard={selectCard}
+              canPlayCard={isCurrentPlayer}
+              isFirstGo={isFirstGo}
+            />
           )}
         </div>
       </div>

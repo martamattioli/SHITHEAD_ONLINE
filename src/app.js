@@ -15,7 +15,8 @@ class App extends React.Component {
       deck: [],
       players: [],
       turnIndex: 0,
-      message: ''
+      message: '',
+      isFirstGo: true
     };
   }
 
@@ -79,7 +80,11 @@ class App extends React.Component {
       }, { power: 14 });
     });
 
-    if(lowestCards[1].value < lowestCards[0].value) this.setState({ turnIndex: 1 });
+    if(lowestCards[1].value < lowestCards[0].value) {
+      this.setState({ turnIndex: 1 }, () => this.selectCard(lowestCards[1].id));
+    } else {
+      this.selectCard(lowestCards[0].id);
+    }
   }
 
   getCurrentPlayer = () => {
@@ -100,7 +105,9 @@ class App extends React.Component {
   }
 
   pickUpBurn = () => {
-    if(!this.state.burn.length) return false;
+    if(!this.state.burn.length || this.canPlay()) {
+      return this.setState({message: '👎'});
+    }
     const currentPlayer = this.getCurrentPlayer();
     const newHand = currentPlayer.hand.inHand.map(card => {
       delete card.selected;
@@ -109,7 +116,7 @@ class App extends React.Component {
     const players = this.updatePlayerHand(newHand);
     const turnIndex = this.state.turnIndex + 1;
 
-    this.setState({ players, burn: [], turnIndex }, () => console.log(this.state));
+    this.setState({ players, burn: [], message: '', turnIndex }, () => console.log(this.state));
   }
 
   selectCard = id => {
@@ -135,18 +142,16 @@ class App extends React.Component {
   }
 
   playCard = () => {
-    console.log('playin...');
+
     const turnIndex = this.state.turnIndex + 1;
     const currentPlayer = this.getCurrentPlayer();
     const currentHand = this.findHand(currentPlayer);
     const selectedCards = currentPlayer.hand[currentHand].filter(card => card.selected);
-    console.log(selectedCards);
 
     if(selectedCards.length === 0 || !this.isHigherCard(selectedCards[0])) return this.pickUpBurn();
 
     // removed card that was clicked on
     const canPickUp = currentPlayer.hand[currentHand].length === 3 && this.deck.cards.length; // length of deck
-    console.log(canPickUp);
     const newHand = canPickUp ? currentPlayer.hand[currentHand].map(card => {
       if(card.selected) return this.deck.getCard();
       return card;
@@ -157,7 +162,15 @@ class App extends React.Component {
     const players = this.updatePlayerHand(newHand);
 
     const burn = this.state.burn.concat(selectedCards);
-    this.setState({ players, burn, turnIndex, deck: this.deck.getAllCards() });
+    this.setState({ players, burn, turnIndex, deck: this.deck.getAllCards(), isFirstGo: false }, () => console.log(this.state));
+  }
+
+  // checkin if the player can play - if they can they cannot pick up the burn pile
+  canPlay = () => {
+    const currentPlayer = this.getCurrentPlayer();
+    const currentHand = this.findHand(currentPlayer);
+    const topBurnCard = this.state.burn[this.state.burn.length-1];
+    return currentPlayer.hand[currentHand].some(card => card.power >= topBurnCard.power);
   }
 
   render() {
@@ -172,6 +185,7 @@ class App extends React.Component {
             playerIndex={index+1}
             selectCard={this.selectCard}
             isCurrentPlayer={this.state.turnIndex % this.state.players.length === index}
+            isFirstGo={this.state.isFirstGo}
             {...player}
           />
         )}
