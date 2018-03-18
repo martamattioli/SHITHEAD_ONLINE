@@ -14,7 +14,8 @@ class App extends React.Component {
       burn: [],
       deck: [],
       players: [],
-      turnIndex: 0
+      turnIndex: 0,
+      message: ''
     };
   }
 
@@ -108,16 +109,34 @@ class App extends React.Component {
     this.setState({ players, burn: [], turnIndex });
   }
 
+  selectCard = id => {
+    // find any selected cards
+    const currentPlayer = this.getCurrentPlayer();
+    const currentHand = this.findHand(currentPlayer);
+    const selectedCard = currentPlayer.hand[currentHand].find(card => card.selected);
+    const card = currentPlayer.hand[currentHand].find(card => card.id === id);
+
+    if(selectedCard && card.value !== selectedCard.value) {
+      return this.setState({ message: '👎' });
+    }
+
+    const newCard = Object.assign({}, card, { selected: !card.selected });
+    const newHand = newCard ? currentPlayer.hand[currentHand].map(card => {
+      if(card.id === id) return newCard;
+      return card;
+    }) : currentPlayer.hand[currentHand].filter(card => {
+      return card.id !== id;
+    });
+    const players = this.updatePlayerHand(newHand);
+    this.setState({ players, message: '' });
+  }
+
   playCard = id => {
-    console.log('playCard', id);
     const turnIndex = this.state.turnIndex + 1;
     const currentPlayer = this.getCurrentPlayer();
     const currentHand = this.findHand(currentPlayer);
     const card = currentPlayer.hand[currentHand].find(card => card.id === id);
-    if(!card || !this.isHigherCard(card)) {
-      console.log('!isHigherCard');
-      return false;
-    }
+    if(!card || !this.isHigherCard(card)) return false;
 
     // removed card that was clicked on
     const newCard = currentPlayer.hand[currentHand].length === 3 && this.deck.getCard();
@@ -138,10 +157,13 @@ class App extends React.Component {
     return (
       <main>
         <h1>Shithead Online</h1>
+        {this.state.message && <div>{this.state.message}</div>}
         {this.state.players.map((player, index) =>
           <Player
             key={player.name}
             playCard={this.playCard}
+            playerIndex={index+1}
+            selectCard={this.selectCard}
             isCurrentPlayer={this.state.turnIndex % this.state.players.length === index}
             {...player}
           />

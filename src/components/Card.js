@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Card = ({ id, value, suit, isFaceUp, playCard, canPlayCard }) => {
+const Card = ({ id, value, suit, isFaceUp, selectCard, canPlayCard, selected }) => {
   const style = isFaceUp ? {
     backgroundImage: `url(/assets/cards/${value}${suit}.svg)`
   } : {
@@ -9,10 +9,10 @@ const Card = ({ id, value, suit, isFaceUp, playCard, canPlayCard }) => {
 
   return (
     <div
-      className="card"
+      className={`card${selected ? ' is-selected' : ''}`}
       style={style}
-      onClick={() => canPlayCard && playCard(id)}
-    ></div>
+      onClick={() => canPlayCard && selectCard(id)}
+    />
   );
 };
 

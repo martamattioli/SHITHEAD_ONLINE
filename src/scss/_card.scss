@@ -11,5 +11,20 @@
 
   border-radius: 4px;
 
+  transition: all 0.3s ease-out;
+
   @include centerBackground;
+
+
+}
+
+.player-1.is-current {
+  .card.is-selected {
+    margin-top: 20px;
+  }
+}
+.player-2.is-current {
+  .card.is-selected {
+    margin-top: -20px;
+  }
 }
